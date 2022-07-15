@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  mcsbusqueda:
+    image: laloworktech/mcsbusqueda:1.0.0
+    build: 
+      context: ./microservicio_busqueda
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8001:8000"
+    networks:
+      - red-coppel
+
+  mcsusuarios:
+    image: laloworktech/mcsusuarios:1.0.0
+    build: 
+      context: ./microservicio_usuarios
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8002:8000"
+    networks:
+      - red-coppel
+      
+  mcsingesta:
+    image: laloworktech/mcsingesta:1.0.0
+    build: 
+      context: ./microservicio_ingesta
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8003:8000"
+    networks:
+      - red-coppel
+      
+  mcsconsulta:
+    image: laloworktech/mcsconsulta:1.0.0
+    build: 
+      context: ./microservicio_consulta
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8004:8000"
+    networks:
+      - red-coppel
+      
+  
+networks:
+  red-coppel:
+    driver: bridge
+
+# docker-compose run <nombreservicio> python manage.py makemigrations api
+# docker-compose run <nombreservicio> python manage.py migrate api
+
+# docker-compose build <nombreservicio> --no-cache
+# docker.io/laloworktech/<nombreservicio>:1.0.0
